@@ -73,7 +73,6 @@ end
 
 function query_system:iter(callback)
     local matched = self:match()
-    local results = {}
     for i, archetype in matched do
         local snapshot = table.clone(archetype.entities)
         for row, entity_id in snapshot do
@@ -94,6 +93,7 @@ function query_system:iter(callback)
             end
 
             if should_yield then
+                local results = {}
                 for j, requirement in self._required do
                     if archetype.columns[requirement] then
                         results[j] = archetype.columns[requirement][row]
