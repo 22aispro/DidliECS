@@ -37,8 +37,8 @@ function world:create_entity()
     return self.entity_manager:create()
 end
 
-function world:destroy_entity(id)
-    self.entity_manager:destroy(id)
+function world:destroy_entity(entity_id)
+	self.entity_manager:destroy(entity_id)
 end
 
 function world:is_alive(id)
