@@ -203,8 +203,8 @@ end
 
 function archetype_manager:get_component(entity_id, name)
     local current = self:get_archetype(entity_id)
-    if not current then warn(`There is no valid archetype tied to entity id: {entity_id}`); return end
-    if not current.columns[name] then warn("Component doesn't exist"); return end
+    if not current then return end
+    if not current.columns[name] then return end
     local row = current.entity_to_row[entity_id]
     return current.columns[name][row]
 end
@@ -405,11 +405,15 @@ function archetype_manager:update_component(entity_id, name, data)
     local old = current.columns[name][row]
 
     local changed = false
-    for i, v in data do
-        if old[i] ~= v then
-            changed = true
-            break
+    if typeof(data) == "table" and typeof(old) == "table" then
+        for i, v in data do
+            if old[i] ~= v then
+                changed = true
+                break
+            end
         end
+    else
+        changed = old ~= data
     end
 
     if changed then
